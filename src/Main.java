@@ -2,8 +2,9 @@ import java.util.*;
 
 public class Main {
   public static void main(String[] args) {
-    int[] arr = {2, 5, 0, 7, 6, 14};
-    System.out.println(linearSearchArray(arr, 6));
+    int[][] arr2d = {{10, 21, 23}, {43, 45, 65}, {79, 87, 69}, {82, 50, 70, 76, 56, 14}};
+    int[] arr = {10, 2, 234, 45, 657, 87, 698, 500, 7656, 1};
+    System.out.println(findNumbers(arr));
   }
 
   public static void func1() {
@@ -23,19 +24,13 @@ public class Main {
   }
 
   public static int recursiveFibonacci(int n) {
-    if (n <= 1) {
-      return n;
-    }
+    if (n <= 1) return n;
     return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
   }
 
   public static int iterativeFibonacci(int n) {
-    if (n == 0) {
-      return 0;
-    }
-    if (n == 1) {
-      return 1;
-    }
+    if (n == 0) return 0;
+    if (n == 1) return 1;
     int prev = 0;
     int cur = 0;
     for (int i = 1; i <= n; i++) {
@@ -50,9 +45,7 @@ public class Main {
     int count = 0;
     while (n > 0) {
       int rem = n % 10;
-      if (rem == target) {
-        count++;
-      }
+      if (rem == target) count++;
       n /= 10;
     }
     return count;
@@ -81,15 +74,17 @@ public class Main {
     return res;
   }
 
+  public static int minArray(int[] arr) {
+    int min = Integer.MAX_VALUE;
+    for (int j : arr)
+      if (j < min) min = j;
+    return min;
+  }
+
   public static int maxArray(int[] arr) {
-    if (arr.length == 0) return -1;
-    int max = arr[0];
-    if (arr.length == 1) return max;
-    for (int j : arr) {
-      if (j > max) {
-        max = j;
-      }
-    }
+    int max = Integer.MIN_VALUE;
+    for (int j : arr)
+      if (j > max) max = j;
     return max;
   }
 
@@ -111,26 +106,105 @@ public class Main {
   }
 
   public static int linearSearchArray(int[] arr, int target) {
-    for (int i = 0; i < arr.length; i++) {
-      if (arr[i] == target) {
-        return i;
-      }
-    }
+    for (int i = 0; i < arr.length; i++)
+      if (arr[i] == target) return i;
     return -1;
   }
 
+  public static boolean stringSearch(String s, char target) {
+    if (s.isEmpty()) return false;
+    for (int i = 0; i < s.length(); i++)
+      if (s.charAt(i) == target) return true;
+    return false;
+  }
+
+  public static int searchInRange(int[] arr, int target, int start, int end) {
+    if (arr == null || arr.length == 0) return -1;
+    for (int i = start; i <= end; i++)
+      if (arr[i] == target) return i;
+    return -1;
+  }
+
+  public static int[] array2DSearch(int[][] arr, int target) {
+    if (arr.length == 0) return new int[]{-1, -1};
+    for (int row = 0; row < arr.length; row++) {
+      for (int col = 0; col < arr[row].length; col++) {
+        if (arr[row][col] == target) return new int[]{row, col};
+      }
+    }
+    return new int[]{-1, -1};
+  }
+
+  public static int array2DMax(int[][] arr) {
+    int max = Integer.MIN_VALUE;
+    for (int[] row : arr)
+      for (int col : row)
+        if (col > max) max = col;
+    return max;
+  }
+
+  public static int array2DMin(int[][] arr) {
+    int min = Integer.MAX_VALUE;
+    for (int[] row : arr)
+      for (int col : row)
+        if (col < min) min = col;
+    return min;
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/find-numbers-with-even-number-of-digits/">
+   *   1295. Find Numbers with Even Number of Digits
+   * </a>
+   */
+  public static int findNumbers(int[] nums) {
+    if(nums.length == 0) return 0;
+    int count = 0;
+    for (int num : nums)
+      if (((int)(Math.log10(num)) & 1) == 1) count++;
+    return count;
+  }
+
+  public static boolean isEven(int n) {
+    return countDigitOptimized(n) % 2 == 0;
+  }
+
+  public static int countDigitOptimized(int n) {
+    if (n < 0) n *= -1;
+    if (n == 0) return 1;
+    return (int) (Math.log10(n) + 1);
+  }
+
+  public static int countDigit(int n) {
+    if (n < 0) n *= -1;
+    if (n == 0) return 1;
+    int count = 0;
+    while (n > 0) {
+      count++;
+      n /= 10;
+    }
+    return count;
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static int[] twoSumOptimized(int[] arr, int target) {
     HashMap<Integer, Integer> map = new HashMap<>();
     for (int i = 0; i < arr.length; i++) {
       int difference = target - arr[i];
-      if (map.containsKey(difference)) {
-        return new int[]{map.get(difference), i};
-      }
+      if (map.containsKey(difference)) return new int[]{map.get(difference), i};
       map.put(arr[i], i);
     }
     return new int[0];
   }
 
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static boolean isPalindrome(int x) {
     if (x < 0 || (x % 10 == 0 && x != 0)) return false;
     int lastDigit = 0;
@@ -141,6 +215,11 @@ public class Main {
     return x == lastDigit || x == lastDigit / 10;
   }
 
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static int romanToInt(String s) {
     HashMap<Character, Integer> map = new HashMap<>();
     map.put('I', 1);
@@ -165,26 +244,38 @@ public class Main {
     return num;
   }
 
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static boolean containsDuplicate(int[] nums) {
     if (nums.length == 1) return false;
     Set<Integer> set = new HashSet<>();
-    for (int num : nums) {
+    for (int num : nums)
       if (!set.add(num)) return true;
-    }
     return false;
   }
 
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static char findTheDifference(String s, String t) {
     int x = 0;
-    for (char i : s.toCharArray()) {
+    for (char i : s.toCharArray())
       x ^= i;
-    }
-    for (char i : t.toCharArray()) {
+    for (char i : t.toCharArray())
       x ^= i;
-    }
     return (char) x;
   }
 
+  /**
+   * <a href="https://leetcode.com/problems/">
+   *   ...
+   * </a>
+   */
   public static String longestCommonPrefix(String[] strs) {
     return "";
   }
