@@ -10,8 +10,13 @@ public class Main {
     int[] sortedArrAsc = {0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
     int[] sortedArrDesc = {20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
     int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-    int[] nums2 = {1};
-    System.out.println(maxSubArray(nums2));
+    int[] nums1 = {1, 2, 3, 10, 0, 0, 0};
+    int[] nums2 = {2, 5, 6};
+    int m = 4;
+    int n = 3;
+//    merge(nums1, m, nums2, n);
+//    for (int num : nums1) System.out.print(num + " ");
+    System.out.println();
   }
 
   public static void func1() {
@@ -355,15 +360,6 @@ public class Main {
   }
 
   /**
-   * <a href="https://leetcode.com/problems/">
-   * ...
-   * </a>
-   */
-  public static String longestCommonPrefix(String[] strs) {
-    return "";
-  }
-
-  /**
    * <a href="https://leetcode.com/maximum-subarray/">
    * Given an integer array nums, find the subarray with the largest sum, and return its sum.
    * </a>
@@ -378,12 +374,51 @@ public class Main {
     }
     return maxSoFar;
   }
-}
 
-//Input: strs = ["flower","flow","flight"]
-//Output: "fl"
-//Example 2:
-//
-//Input: strs = ["dog","racecar","car"]
-//Output: ""
-//Explanation: There is no common prefix among the input strings.
+  /**
+   * <a href="https://leetcode.com/maximum-subarray/">
+   * Given a string s, find the length of the longest substring without repeating characters.
+   * </a>
+   */
+  public static int lengthOfLongestSubstring(String s) {
+    if (s.isEmpty()) return 0;
+    var longest = 0;
+    var charIndexMap = new HashMap<Character, Integer>();
+    int left = 0;
+    for (int right = 0; right < s.length(); right++) {
+      char currentChar = s.charAt(right);
+      // If the character was seen before, move 'left' to the position right after its last occurrence
+      if (charIndexMap.containsKey(currentChar)) left = Math.max(left, charIndexMap.get(currentChar) + 1);
+      // Update the last seen index of the current character
+      charIndexMap.put(currentChar, right);
+      // Calculate the length of the current substring
+      longest = Math.max(longest, right - left + 1);
+    }
+    return longest;
+  }
+
+  /**
+   * <a href="https://leetcode.com/merge-sorted-array/description/">
+   * You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+   * Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+   * The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+   * </a>
+   */
+  public static void merge(int[] nums1, int m, int[] nums2, int n) {
+    int left = m - 1, right = n - 1, gap = m + n - 1;
+    while (left >= 0 && right >= 0) {
+      if (nums1[left] > nums2[right]) nums1[gap--] = nums1[left--];
+      else nums1[gap--] = nums2[right--];
+    }
+    while (right >= 0) nums1[gap--] = nums2[right--];
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/">
+   * ...
+   * </a>
+   */
+  public static String longestCommonPrefix(String[] strs) {
+    return "";
+  }
+}
