@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
   public static void main(String[] args) {
@@ -165,6 +162,22 @@ public class Main {
       x /= 10;
     }
     return x == lastDigit || x == lastDigit / 10;
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/">
+   * Given an integer array nums and an integer k, return the kth largest element in the array.
+   * Note that it is the kth largest element in the sorted order, not the kth distinct element.
+   * Can you solve it without sorting?
+   * </a>
+   */
+  public static int findKthLargest(int[] nums, int k) {
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    for (int num : nums) {
+      minHeap.add(num);
+      if (minHeap.size() > k) minHeap.poll();
+    }
+    return minHeap.peek();
   }
 
   public static int linearSearchArray(int[] arr, int target) {
@@ -336,6 +349,30 @@ public class Main {
     return reverse;
   }
 
+  /**
+   * <a href="https://leetcode.com/search-in-rotated-sorted-array/description/">
+   * There is an integer array nums sorted in ascending order (with distinct values).
+   * Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+   * Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+   * You must write an algorithm with O(log n) runtime complexity.
+   * </a>
+   */
+  public static int search(int[] nums, int target) {
+    int low = 0, high = nums.length - 1;
+    while (low <= high) {
+      int mid = (low + high) / 2;
+      if (nums[mid] == target) return mid;
+      if (nums[low] <= nums[mid]) {
+        if (nums[low] <= target && target <= nums[mid]) high = mid - 1;
+        else low = mid + 1;
+      } else {
+        if (nums[mid] <= target && target <= nums[high]) low = mid + 1;
+        else high = mid - 1;
+      }
+    }
+    return -1;
+  }
+
   public static void swap(int[] arr, int index1, int index2) {
     int temp = arr[index1];
     arr[index1] = arr[index2];
@@ -390,7 +427,7 @@ public class Main {
    * ...
    * </a>
    */
-  public static String longestCommonPrefix(String[] strs) {
+  public static String longestCommonPrefix(String[] s) {
     return "";
   }
 }
