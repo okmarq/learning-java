@@ -30,108 +30,6 @@ public class Main {
     throw new Exception("Thoughts from 1");
   }
 
-  public static int recursiveFibonacci(int n) {
-    if (n <= 1) return n;
-    return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
-  }
-
-  public static int iterativeFibonacci(int n) {
-    if (n == 0) return 0;
-    if (n == 1) return 1;
-    int prev = 0;
-    int cur = 0;
-    for (int i = 1; i <= n; i++) {
-      int next = prev + cur;
-      cur = prev;
-      prev = next;
-    }
-    return cur;
-  }
-
-  public static int countDigits(int n, int target) {
-    int count = 0;
-    while (n > 0) {
-      int rem = n % 10;
-      if (rem == target) count++;
-      n /= 10;
-    }
-    return count;
-  }
-
-  public static int reverseDigits(int n) {
-    int reverse = 0;
-    while (n > 0) {
-      reverse = reverse * 10 + n % 10;
-      n /= 10;
-    }
-    return reverse;
-  }
-
-  public static ArrayList<Integer> twoSumBruteForce(int[] arr, int target) {
-    ArrayList<Integer> res = new ArrayList<>();
-    for (int i = 0; i < arr.length; i++) {
-      for (int j = i + 1; j < arr.length; j++) {
-        if (arr[i] + arr[j] == target) {
-          res.add(i);
-          res.add(j);
-          return res;
-        }
-      }
-    }
-    return res;
-  }
-
-  public static int minArray(int[] arr) {
-    int min = Integer.MAX_VALUE;
-    for (int j : arr)
-      if (j < min) min = j;
-    return min;
-  }
-
-  public static int maxArray(int[] arr) {
-    int max = Integer.MIN_VALUE;
-    for (int j : arr)
-      if (j > max) max = j;
-    return max;
-  }
-
-  public static void swap(int[] arr, int index1, int index2) {
-    int temp = arr[index1];
-    arr[index1] = arr[index2];
-    arr[index2] = temp;
-  }
-
-  public static int[] reverseArr(int[] arr) {
-    int start = 0;
-    int end = arr.length - 1;
-    while (start < end) {
-      swap(arr, start, end);
-      start++;
-      end--;
-    }
-    return arr;
-  }
-
-  public static int linearSearchArray(int[] arr, int target) {
-    for (int i = 0; i < arr.length; i++)
-      if (arr[i] == target) return i;
-    return -1;
-  }
-
-  public static boolean stringSearch(String s, char target) {
-    if (s.isEmpty()) return false;
-    for (int i = 0; i < s.length(); i++)
-      if (s.charAt(i) == target) return true;
-    return false;
-  }
-
-  public static int searchInRange(int[] arr, int target, int start, int end) {
-    if (arr == null || arr.length == 0) return -1;
-    for (int i = start; i <= end; i++)
-      if (arr[i] == target) return i;
-    return -1;
-  }
-
   public static int[] array2DSearch(int[][] arr, int target) {
     if (arr.length == 0) return new int[]{-1, -1};
     for (int row = 0; row < arr.length; row++) {
@@ -158,82 +56,27 @@ public class Main {
     return min;
   }
 
-  public static int orderAgnosticIterativeBinarySearch(int[] arr, int target) {
-    int start = 0;
-    int end = arr.length - 1;
-    boolean isAscending = arr[start] < arr[end];
-    while (start <= end) {
-      int mid = start + (end - start) / 2;
-      if (arr[mid] == target) return mid;
-      if (isAscending) {
-        if (target < arr[mid]) end = mid - 1;
-        else start = mid + 1;
-      } else {
-        if (target > arr[mid]) end = mid - 1;
-        else start = mid + 1;
-      }
-    }
-    return -1;
-  }
-
-  public static int iterativeBinarySearch(int[] arr, int target) {
-    int start = 0;
-    int end = arr.length - 1;
-    while (start <= end) {
-      int mid = start + (end - start) / 2;
-      if (target < arr[mid]) end = mid - 1;
-      else if (target > arr[mid]) start = mid + 1;
-      else return mid;
-    }
-    return -1;
-  }
-
-  public static int recursiveBinarySearch(int[] arr, int target) {
-    return recursiveBinarySearch(arr, target, 0, arr.length - 1);
-  }
-
-  public static int recursiveBinarySearch(int[] arr, int target, int start, int end) {
-    if (start > end) return -1;
-    int mid = start + (end - start) / 2;
-    if (arr[mid] == target) return mid;
-    else if (target < arr[mid]) return recursiveBinarySearch(arr, target, start, mid - 1);
-    else return recursiveBinarySearch(arr, target, mid + 1, end);
-  }
-
-
-  public static int orderAgnosticRecursiveBinarySearch(int[] arr, int target) {
-    boolean isAscending = arr[0] < arr[arr.length - 1];
-    return orderAgnosticRecursiveBinarySearch(arr, target, 0, arr.length - 1, isAscending);
-  }
-
-  public static int orderAgnosticRecursiveBinarySearch(int[] arr, int target, int start, int end, boolean isAscending) {
-    if (start > end) return -1;
-    int mid = start + (end - start) / 2;
-    if (arr[mid] == target) return mid;
-    if (isAscending) {
-      if (target < arr[mid]) return orderAgnosticRecursiveBinarySearch(arr, target, start, mid - 1, true);
-      else return orderAgnosticRecursiveBinarySearch(arr, target, mid + 1, end, true);
-    } else {
-      if (target > arr[mid]) return orderAgnosticRecursiveBinarySearch(arr, target, start, mid - 1, false);
-      else return orderAgnosticRecursiveBinarySearch(arr, target, mid + 1, end, false);
-    }
-  }
-
-  /**
-   * <a href="https://leetcode.com/problems/find-numbers-with-even-number-of-digits/">
-   * 1295. Find Numbers with Even Number of Digits
-   * </a>
-   */
-  public static int findNumbers(int[] nums) {
-    if (nums.length == 0) return 0;
+  public static int countDigits(int n, int target) {
     int count = 0;
-    for (int num : nums)
-      if (((int) (Math.log10(num)) & 1) == 1) count++;
+    while (n > 0) {
+      int rem = n % 10;
+      if (rem == target) count++;
+      n /= 10;
+    }
     return count;
   }
 
-  public static boolean isEven(int n) {
-    return countDigitOptimized(n) % 2 == 0;
+  /**
+   * <a href="https://leetcode.com/problems/">
+   * ...
+   * </a>
+   */
+  public static boolean containsDuplicate(int[] nums) {
+    if (nums.length == 1) return false;
+    Set<Integer> set = new HashSet<>();
+    for (int num : nums)
+      if (!set.add(num)) return true;
+    return false;
   }
 
   public static int countDigitOptimized(int n) {
@@ -258,14 +101,55 @@ public class Main {
    * ...
    * </a>
    */
-  public static int[] twoSumOptimized(int[] arr, int target) {
-    HashMap<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < arr.length; i++) {
-      int difference = target - arr[i];
-      if (map.containsKey(difference)) return new int[]{map.get(difference), i};
-      map.put(arr[i], i);
+  public static char findTheDifference(String s, String t) {
+    int x = 0;
+    for (char i : s.toCharArray())
+      x ^= i;
+    for (char i : t.toCharArray())
+      x ^= i;
+    return (char) x;
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/find-numbers-with-even-number-of-digits/">
+   * 1295. Find Numbers with Even Number of Digits
+   * </a>
+   */
+  public static int findNumbers(int[] nums) {
+    if (nums.length == 0) return 0;
+    int count = 0;
+    for (int num : nums)
+      if (((int) (Math.log10(num)) & 1) == 1) count++;
+    return count;
+  }
+
+  public static boolean isEven(int n) {
+    return countDigitOptimized(n) % 2 == 0;
+  }
+
+  public static int iterativeBinarySearch(int[] arr, int target) {
+    int start = 0;
+    int end = arr.length - 1;
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+      if (target < arr[mid]) end = mid - 1;
+      else if (target > arr[mid]) start = mid + 1;
+      else return mid;
     }
-    return new int[0];
+    return -1;
+  }
+
+  public static int iterativeFibonacci(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    int prev = 0;
+    int cur = 0;
+    for (int i = 1; i <= n; i++) {
+      int next = prev + cur;
+      cur = prev;
+      prev = next;
+    }
+    return cur;
   }
 
   /**
@@ -281,6 +165,105 @@ public class Main {
       x /= 10;
     }
     return x == lastDigit || x == lastDigit / 10;
+  }
+
+  public static int linearSearchArray(int[] arr, int target) {
+    for (int i = 0; i < arr.length; i++)
+      if (arr[i] == target) return i;
+    return -1;
+  }
+
+  public static int minArray(int[] arr) {
+    int min = Integer.MAX_VALUE;
+    for (int j : arr)
+      if (j < min) min = j;
+    return min;
+  }
+
+  public static int maxArray(int[] arr) {
+    int max = Integer.MIN_VALUE;
+    for (int j : arr)
+      if (j > max) max = j;
+    return max;
+  }
+
+  /**
+   * <a href="https://leetcode.com/problems/richest-customer-wealth/description/">
+   * 1672. Richest Customer Wealth
+   * </a>
+   */
+  public static int maximumWealth(int[][] accounts) {
+    int richest = 0;
+    for (int[] account : accounts) {
+      int wealth = 0;
+      for (int n : account) wealth += n;
+      if (wealth > richest) richest = wealth;
+    }
+    return richest;
+  }
+
+  /**
+   * <a href="https://leetcode.com/maximum-subarray/">
+   * Given an integer array nums, find the subarray with the largest sum, and return its sum.
+   * </a>
+   */
+  public static int maxSubArray(int[] nums) {
+    var maxSoFar = Integer.MIN_VALUE;
+    var maxEndingHere = 0;
+    for (int num : nums) {
+      maxEndingHere += num;
+      if (maxSoFar < maxEndingHere) maxSoFar = maxEndingHere;
+      if (maxEndingHere < 0) maxEndingHere = 0;
+    }
+    return maxSoFar;
+  }
+
+  public static int orderAgnosticIterativeBinarySearch(int[] arr, int target) {
+    int start = 0;
+    int end = arr.length - 1;
+    boolean isAscending = arr[start] < arr[end];
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+      if (arr[mid] == target) return mid;
+      if (isAscending) {
+        if (target < arr[mid]) end = mid - 1;
+        else start = mid + 1;
+      } else {
+        if (target > arr[mid]) end = mid - 1;
+        else start = mid + 1;
+      }
+    }
+    return -1;
+  }
+
+  public static int orderAgnosticRecursiveBinarySearch(int[] arr, int target) {
+    boolean isAscending = arr[0] < arr[arr.length - 1];
+    return orderAgnosticRecursiveBinarySearch(arr, target, 0, arr.length - 1, isAscending);
+  }
+
+  public static int orderAgnosticRecursiveBinarySearch(int[] arr, int target, int start, int end, boolean isAscending) {
+    if (start > end) return -1;
+    int mid = start + (end - start) / 2;
+    if (arr[mid] == target) return mid;
+    if (isAscending) {
+      if (target < arr[mid]) return orderAgnosticRecursiveBinarySearch(arr, target, start, mid - 1, true);
+      else return orderAgnosticRecursiveBinarySearch(arr, target, mid + 1, end, true);
+    } else {
+      if (target > arr[mid]) return orderAgnosticRecursiveBinarySearch(arr, target, start, mid - 1, false);
+      else return orderAgnosticRecursiveBinarySearch(arr, target, mid + 1, end, false);
+    }
+  }
+
+  public static int recursiveBinarySearch(int[] arr, int target) {
+    return recursiveBinarySearch(arr, target, 0, arr.length - 1);
+  }
+
+  public static int recursiveBinarySearch(int[] arr, int target, int start, int end) {
+    if (start > end) return -1;
+    int mid = start + (end - start) / 2;
+    if (arr[mid] == target) return mid;
+    else if (target < arr[mid]) return recursiveBinarySearch(arr, target, start, mid - 1);
+    else return recursiveBinarySearch(arr, target, mid + 1, end);
   }
 
   /**
@@ -312,46 +295,78 @@ public class Main {
     return num;
   }
 
-  /**
-   * <a href="https://leetcode.com/problems/">
-   * ...
-   * </a>
-   */
-  public static boolean containsDuplicate(int[] nums) {
-    if (nums.length == 1) return false;
-    Set<Integer> set = new HashSet<>();
-    for (int num : nums)
-      if (!set.add(num)) return true;
+  public static int recursiveFibonacci(int n) {
+    if (n <= 1) return n;
+    return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
+  }
+
+  public static int[] reverseArr(int[] arr) {
+    int start = 0;
+    int end = arr.length - 1;
+    while (start < end) {
+      swap(arr, start, end);
+      start++;
+      end--;
+    }
+    return arr;
+  }
+
+  public static int reverseDigits(int n) {
+    int reverse = 0;
+    while (n > 0) {
+      reverse = reverse * 10 + n % 10;
+      n /= 10;
+    }
+    return reverse;
+  }
+
+  public static void swap(int[] arr, int index1, int index2) {
+    int temp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = temp;
+  }
+
+  public static boolean stringSearch(String s, char target) {
+    if (s.isEmpty()) return false;
+    for (int i = 0; i < s.length(); i++)
+      if (s.charAt(i) == target) return true;
     return false;
   }
 
+  public static int searchInRange(int[] arr, int target, int start, int end) {
+    if (arr == null || arr.length == 0) return -1;
+    for (int i = start; i <= end; i++)
+      if (arr[i] == target) return i;
+    return -1;
+  }
+
+  public static ArrayList<Integer> twoSumBruteForce(int[] arr, int target) {
+    ArrayList<Integer> res = new ArrayList<>();
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = i + 1; j < arr.length; j++) {
+        if (arr[i] + arr[j] == target) {
+          res.add(i);
+          res.add(j);
+          return res;
+        }
+      }
+    }
+    return res;
+  }
+
   /**
    * <a href="https://leetcode.com/problems/">
    * ...
    * </a>
    */
-  public static char findTheDifference(String s, String t) {
-    int x = 0;
-    for (char i : s.toCharArray())
-      x ^= i;
-    for (char i : t.toCharArray())
-      x ^= i;
-    return (char) x;
-  }
-
-  /**
-   * <a href="https://leetcode.com/problems/richest-customer-wealth/description/">
-   * 1672. Richest Customer Wealth
-   * </a>
-   */
-  public static int maximumWealth(int[][] accounts) {
-    int richest = 0;
-    for (int[] account : accounts) {
-      int wealth = 0;
-      for (int n : account) wealth += n;
-      if (wealth > richest) richest = wealth;
+  public static int[] twoSumOptimized(int[] arr, int target) {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < arr.length; i++) {
+      int difference = target - arr[i];
+      if (map.containsKey(difference)) return new int[]{map.get(difference), i};
+      map.put(arr[i], i);
     }
-    return richest;
+    return new int[0];
   }
 
   /**
@@ -361,22 +376,6 @@ public class Main {
    */
   public static String longestCommonPrefix(String[] strs) {
     return "";
-  }
-
-  /**
-   * <a href="https://leetcode.com/maximum-subarray/">
-   * Given an integer array nums, find the subarray with the largest sum, and return its sum.
-   * </a>
-   */
-  public static int maxSubArray(int[] nums) {
-    var maxSoFar = Integer.MIN_VALUE;
-    var maxEndingHere = 0;
-    for (int num : nums) {
-      maxEndingHere += num;
-      if (maxSoFar < maxEndingHere) maxSoFar = maxEndingHere;
-      if (maxEndingHere < 0) maxEndingHere = 0;
-    }
-    return maxSoFar;
   }
 }
 
