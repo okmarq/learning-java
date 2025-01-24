@@ -13,6 +13,12 @@ public class Main {
     var right = 4;
     var text1 = "abcde";
     var text2 = "ace";
+    char[][] grid = {
+      {'1', '1', '0', '0', '0'},
+      {'1', '1', '0', '0', '0'},
+      {'0', '0', '1', '0', '0'},
+      {'0', '0', '0', '1', '1'}
+    };
     System.out.println(coinChange(nums1, left));
   }
 
